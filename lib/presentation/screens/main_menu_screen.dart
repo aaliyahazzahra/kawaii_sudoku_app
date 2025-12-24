@@ -63,7 +63,7 @@ class MainMenuScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () => _handleNavigation(context, const ProfileScreen()),
+                        onTap: () => _handleNavigation(context, const SudokuProfileScreen()),
                         child: _buildSmallCard('Profile', Icons.person_outline),
                       ),
                     ),
