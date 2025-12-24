@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kawaii_sudoku_app/presentation/screens/main_menu_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,11 +17,23 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const MainMenuScreen()),
-      );
-      debugPrint("Navigating to Main Menu...");
+      _handleNavigation();
+    });
+  }
+
+  void _handleNavigation() {
+    Timer(const Duration(seconds: 4), () async {
+      if (mounted) {
+        Future<bool> getLoginStatus() async {
+          final prefs = await SharedPreferences.getInstance();
+          return prefs.getBool('isLoggedIn') ?? false;
+        }
+
+        final bool isLoggedIn = await getLoginStatus();
+        final String targetRoute = isLoggedIn ? '/home' : '/login';
+
+        Navigator.of(context).pushReplacementNamed(targetRoute);
+      }
     });
   }
 
