@@ -230,6 +230,7 @@ class GameplayScreen extends StatelessWidget {
   void _showDifficultyDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierColor: Colors.transparent,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
