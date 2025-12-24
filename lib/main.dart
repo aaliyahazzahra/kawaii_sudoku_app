@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kawaii_sudoku_app/presentation/screens/main_menu_screen.dart';
+import 'package:kawaii_sudoku_app/presentation/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MainMenuScreen(),
+      home: const SplashScreen(),
     );
   }
 }
