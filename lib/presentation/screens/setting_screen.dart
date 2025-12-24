@@ -100,29 +100,6 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
 
-                // Account Section
-                SettingsCard(
-                  title: 'Account',
-                  icon: Icons.login,
-                  child: Column(
-                    children: [
-                      _buildSignInStatus(),
-                      const SizedBox(height: 15),
-                      _buildSocialButton(
-                        'Sign In with Google',
-                        const Color(0xFFF06292),
-                        Colors.white,
-                      ),
-                      const SizedBox(height: 10),
-                      _buildSocialButton(
-                        'Sign In with Apple',
-                        const Color(0xFF3F334D),
-                        Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-
                 const SizedBox(height: 20),
                 const Text(
                   'Kawaii Sudoku v1.0.0',
@@ -235,9 +212,7 @@ class SettingsPage extends StatelessWidget {
         SliderTheme(
           data: SliderThemeData(
             trackHeight: 6,
-            thumbColor: const Color(
-              0xFF8B8000,
-            ),
+            thumbColor: const Color(0xFF8B8000),
             activeTrackColor: const Color(0xFFF06292),
             inactiveTrackColor: Colors.grey[200],
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
@@ -245,55 +220,6 @@ class SettingsPage extends StatelessWidget {
           child: Slider(value: value, onChanged: (v) {}),
         ),
       ],
-    );
-  }
-
-  Widget _buildSignInStatus() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.cancel_outlined, color: Colors.orange),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Not Signed In',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Sign In to sync your progress',
-                style: TextStyle(fontSize: 11, color: Colors.grey),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSocialButton(String text, Color bgColor, Color textColor) {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: bgColor,
-          foregroundColor: textColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
-        onPressed: () {},
-        child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ),
     );
   }
 }
