@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kawaii_sudoku_app/core/color_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SudokuProfileScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFFFFF9F0), Color(0xFFFFC0D9)],
+                  colors: [AppColors.bgCream, AppColors.bgLightPink],
                 ),
               ),
             ),
@@ -105,7 +106,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
                     ElevatedButton(
                       onPressed: _logout,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: AppColors.logoutBtn,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -116,7 +117,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
                       ),
                       child: const Text(
                         "Logout",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: AppColors.textWhite),
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -141,9 +142,9 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CircleAvatar(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.cardSurface,
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.grey),
+            icon: const Icon(Icons.arrow_back, color: AppColors.textGrey),
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -152,7 +153,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF64748B),
+            color: AppColors.textSlate,
           ),
         ),
         const SizedBox(width: 40),
@@ -165,12 +166,12 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFFFF85B3), Color(0xFFF6418C)],
+          colors: [AppColors.profileHeaderStart, AppColors.profileHeaderEnd],
         ),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.pink.withOpacity(0.3),
+            color: AppColors.shadowPink.withOpacity(0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -182,11 +183,11 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
             children: [
               const CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.white,
+                backgroundColor: AppColors.cardSurface,
                 child: Icon(
                   Icons.person_outline,
                   size: 50,
-                  color: Colors.pinkAccent,
+                  color: AppColors.textAccent,
                 ),
               ),
               const SizedBox(width: 15),
@@ -196,38 +197,46 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
                   Text(
                     username ?? "SudokuPixie",
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textWhite,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     email ?? "Logic Pixie",
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    style: const TextStyle(
+                      color: AppColors.textWhite70,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 20),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 "Level 12",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text("2450 / 3000 XP", style: TextStyle(color: Colors.white)),
+              Text(
+                "2450 / 3000 XP",
+                style: TextStyle(color: AppColors.textWhite),
+              ),
             ],
           ),
           const SizedBox(height: 8),
           LinearProgressIndicator(
             value: 0.8,
-            backgroundColor: Colors.white24,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            backgroundColor: AppColors.overlayWhite,
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              AppColors.textWhite,
+            ),
             borderRadius: BorderRadius.circular(10),
             minHeight: 10,
           ),
@@ -243,10 +252,10 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
           Container(
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
-              color: Color(0xFFFF69B4),
+              color: AppColors.iconBg,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.whatshot, color: Colors.white),
+            child: const Icon(Icons.whatshot, color: AppColors.textWhite),
           ),
           const SizedBox(width: 15),
           const Column(
@@ -254,14 +263,14 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
             children: [
               Text(
                 "Daily Streak",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(color: AppColors.textGrey, fontSize: 12),
               ),
               Text(
                 "7 days ❤️",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.pinkAccent,
+                  color: AppColors.textAccent,
                 ),
               ),
             ],
@@ -269,7 +278,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
           const Spacer(),
           const Icon(
             Icons.local_fire_department,
-            color: Colors.orangeAccent,
+            color: AppColors.iconFire,
             size: 40,
           ),
         ],
@@ -302,11 +311,11 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
         children: [
           Row(
             children: [
-              Icon(icon, size: 16, color: Colors.pinkAccent),
+              Icon(icon, size: 16, color: AppColors.textAccent),
               const SizedBox(width: 5),
               Text(
                 label,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: AppColors.textGrey, fontSize: 12),
               ),
             ],
           ),
@@ -316,7 +325,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF4A4A4A),
+              color: AppColors.textDark,
             ),
           ),
         ],
@@ -331,7 +340,7 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
         children: [
           const Row(
             children: [
-              Icon(Icons.people_outline, color: Colors.pinkAccent),
+              Icon(Icons.people_outline, color: AppColors.textAccent),
               SizedBox(width: 10),
               Text(
                 "Friends Online",
@@ -356,9 +365,9 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
           Stack(
             children: [
               const CircleAvatar(
-                backgroundColor: Colors.pinkAccent,
+                backgroundColor: AppColors.textAccent,
                 radius: 18,
-                child: Icon(Icons.person, color: Colors.white, size: 20),
+                child: Icon(Icons.person, color: AppColors.textWhite, size: 20),
               ),
               Positioned(
                 right: 0,
@@ -367,9 +376,11 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color: online ? Colors.green : Colors.grey,
+                    color: online
+                        ? AppColors.statusOnline
+                        : AppColors.statusOffline,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: AppColors.textWhite, width: 2),
                   ),
                 ),
               ),
@@ -382,12 +393,12 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
               Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
               Text(
                 level,
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
+                style: const TextStyle(fontSize: 10, color: AppColors.textGrey),
               ),
             ],
           ),
           const Spacer(),
-          const Icon(Icons.favorite, color: Colors.pinkAccent, size: 14),
+          const Icon(Icons.favorite, color: AppColors.textAccent, size: 14),
         ],
       ),
     );
@@ -427,10 +438,13 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
       width: 50,
       height: 50,
       decoration: BoxDecoration(
-        color: unlocked ? Colors.pinkAccent : Colors.grey[200],
+        color: unlocked ? AppColors.textAccent : AppColors.achievementLocked,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Icon(icon, color: unlocked ? Colors.white : Colors.grey[400]),
+      child: Icon(
+        icon,
+        color: unlocked ? AppColors.textWhite : AppColors.achievementIconLocked,
+      ),
     );
   }
 
@@ -439,11 +453,11 @@ class _SudokuProfileScreenState extends State<SudokuProfileScreen>
       width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: AppColors.cardSurface.withOpacity(0.9),
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.shadowBlack.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

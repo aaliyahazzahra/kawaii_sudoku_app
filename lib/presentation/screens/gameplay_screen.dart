@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kawaii_sudoku_app/core/color_app.dart';
 
 class GameplayScreen extends StatelessWidget {
   const GameplayScreen({super.key});
@@ -12,7 +13,11 @@ class GameplayScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFF0F5), Color(0xFFFFD1DC), Color(0xFFFFB6C1)],
+            colors: [
+              AppColors.bgLavender,
+              AppColors.bgMiddlePink,
+              AppColors.bgPinkSoft,
+            ],
           ),
         ),
         child: SafeArea(
@@ -68,7 +73,7 @@ class GameplayScreen extends StatelessWidget {
   Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardSurface,
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -82,13 +87,13 @@ class GameplayScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardSurface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: isTimer ? Colors.pink : Colors.grey[600],
+          color: isTimer ? Colors.pink : AppColors.textGrey600,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -100,11 +105,11 @@ class GameplayScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardSurface,
         borderRadius: BorderRadius.circular(25),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: AppColors.shadowGrid,
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -127,14 +132,14 @@ class GameplayScreen extends StatelessWidget {
                 border: Border(
                   bottom: BorderSide(
                     width: (row == 2 || row == 5) ? 2.5 : 0.5,
-                    color: const Color(0xFF4A4E69),
+                    color: AppColors.textDark,
                   ),
                   right: BorderSide(
                     width: (col == 2 || col == 5) ? 2.5 : 0.5,
-                    color: const Color(0xFF4A4E69),
+                    color: AppColors.textDark,
                   ),
-                  top: BorderSide(width: 0.5, color: const Color(0xFF4A4E69)),
-                  left: BorderSide(width: 0.5, color: const Color(0xFF4A4E69)),
+                  top: const BorderSide(width: 0.5, color: AppColors.textDark),
+                  left: const BorderSide(width: 0.5, color: AppColors.textDark),
                 ),
               ),
               child: Center(
@@ -143,7 +148,7 @@ class GameplayScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF4A4E69),
+                    color: AppColors.textDark,
                   ),
                 ),
               ),
@@ -160,7 +165,7 @@ class GameplayScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: AppColors.cardSurface,
           shape: BoxShape.circle,
         ),
         child: Icon(icon, color: Colors.grey[400], size: 24),
@@ -173,7 +178,7 @@ class GameplayScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: AppColors.cardSurface.withOpacity(0.9),
         borderRadius: BorderRadius.circular(25),
       ),
       child: Wrap(
@@ -195,17 +200,17 @@ class GameplayScreen extends StatelessWidget {
       width: 55,
       height: 55,
       decoration: BoxDecoration(
-        color: isEraser ? Colors.white : const Color(0xFFFF69B4),
+        color: isEraser ? AppColors.cardSurface : AppColors.keyPadKey,
         borderRadius: BorderRadius.circular(15),
-        border: isEraser ? Border.all(color: Colors.pink[100]!) : null,
+        border: isEraser ? Border.all(color: AppColors.inputBorderLight) : null,
       ),
       child: Center(
         child: isEraser
-            ? Icon(Icons.auto_fix_normal, color: Colors.pink[300])
+            ? const Icon(Icons.auto_fix_normal, color: AppColors.iconEraser)
             : Text(
                 text!,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -239,7 +244,7 @@ class GameplayScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.cardSurface,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Column(
@@ -251,7 +256,7 @@ class GameplayScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF4A4E69),
+                    color: AppColors.textDark,
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -267,7 +272,7 @@ class GameplayScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF433D4C),
+                      backgroundColor: AppColors.btnDark,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -277,7 +282,7 @@ class GameplayScreen extends StatelessWidget {
                     child: const Text(
                       'Close',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -303,17 +308,22 @@ class GameplayScreen extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        border: isSelected ? null : Border.all(color: Colors.pink.shade100),
+        border: isSelected
+            ? null
+            : Border.all(color: AppColors.inputBorderLight),
         gradient: isSelected
             ? const LinearGradient(
-                colors: [Color(0xFFFF52AF), Color(0xFFFF8AD1)],
+                colors: [
+                  AppColors.buttonGradientStart,
+                  AppColors.buttonGradientEnd,
+                ],
               )
             : null,
-        color: isSelected ? null : Colors.white,
+        color: isSelected ? null : AppColors.cardSurface,
         boxShadow: isSelected
             ? [
                 BoxShadow(
-                  color: Colors.pink.withOpacity(0.3),
+                  color: AppColors.shadowPink.withOpacity(0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -324,7 +334,7 @@ class GameplayScreen extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey[600],
+            color: isSelected ? AppColors.textWhite : AppColors.textGrey600,
             fontSize: 16,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
           ),

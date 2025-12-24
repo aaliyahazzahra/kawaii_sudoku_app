@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kawaii_sudoku_app/core/color_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'gameplay_screen.dart';
 import 'login_screen.dart';
@@ -7,7 +8,6 @@ import 'profile_screen.dart';
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
 
-  // LOGIKA INTI: CEK LOGIN
   Future<void> _handleNavigation(
     BuildContext context,
     Widget targetScreen,
@@ -23,13 +23,11 @@ class MainMenuScreen extends StatelessWidget {
         MaterialPageRoute(builder: (context) => targetScreen),
       );
     } else {
-      // Jika belum login, arahkan ke Auth (Login/Register)
       bool? success = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
 
-      // Jika setelah dari AuthScreen statusnya sukses login
       if (success == true && context.mounted) {
         Navigator.push(
           context,
@@ -48,7 +46,11 @@ class MainMenuScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFFFFF), Color(0xFFFFD1DC), Color(0xFFFF69B4)],
+            colors: [
+              AppColors.bgStartWhite,
+              AppColors.bgMiddlePink,
+              AppColors.bgEndPink,
+            ],
             stops: [0.0, 0.5, 1.0],
           ),
         ),
@@ -63,7 +65,7 @@ class MainMenuScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0XFF4A4E69),
+                    color: AppColors.textDark,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -71,13 +73,12 @@ class MainMenuScreen extends StatelessWidget {
                   'Have fun & play cute! 💕',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFFFF4081),
+                    color: AppColors.textAccent,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 40),
 
-                // TOMBOL PLAY (DENGAN PROTEKSI LOGIN)
                 _buildPlayButton(context),
 
                 const SizedBox(height: 20),
@@ -124,12 +125,15 @@ class MainMenuScreen extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFFFF52AF), Color(0xFFFF8AD1)],
+              colors: [
+                AppColors.buttonGradientStart,
+                AppColors.buttonGradientEnd,
+              ],
             ),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
-                color: Colors.pink.withOpacity(0.3),
+                color: AppColors.shadowPink.withOpacity(0.3),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),
@@ -141,12 +145,12 @@ class MainMenuScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: const BoxDecoration(
-                  color: Colors.white24,
+                  color: AppColors.overlayWhite,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.play_arrow,
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   size: 30,
                 ),
               ),
@@ -154,7 +158,7 @@ class MainMenuScreen extends StatelessWidget {
               const Text(
                 'Play Game',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -170,20 +174,20 @@ class MainMenuScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: AppColors.cardSurface.withOpacity(0.9),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         children: [
           CircleAvatar(
-            backgroundColor: const Color(0xFFFF69B4),
-            child: Icon(icon, color: Colors.white),
+            backgroundColor: AppColors.iconBg,
+            child: Icon(icon, color: AppColors.textWhite),
           ),
           const SizedBox(height: 10),
           Text(
             title,
             style: const TextStyle(
-              color: Colors.grey,
+              color: AppColors.textGrey,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -196,14 +200,14 @@ class MainMenuScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: AppColors.cardSurface.withOpacity(0.9),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
           const CircleAvatar(
-            backgroundColor: Color(0xFFFF69B4),
-            child: Icon(Icons.palette_outlined, color: Colors.white),
+            backgroundColor: AppColors.iconBg,
+            child: Icon(Icons.palette_outlined, color: AppColors.textWhite),
           ),
           const SizedBox(width: 15),
           const Text(
@@ -211,9 +215,9 @@ class MainMenuScreen extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const Spacer(),
-          _colorDot(const Color(0xFFFFB6C1)),
-          _colorDot(const Color(0xFFFF1493)),
-          _colorDot(const Color(0xFF2D2D44)),
+          _colorDot(AppColors.dotLight),
+          _colorDot(AppColors.dotDeep),
+          _colorDot(AppColors.dotDark),
         ],
       ),
     );
@@ -230,7 +234,7 @@ class MainMenuScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: AppColors.cardSurface.withOpacity(0.9),
         borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
@@ -252,11 +256,14 @@ class MainMenuScreen extends StatelessWidget {
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFFF4081),
+            color: AppColors.textAccent,
           ),
         ),
         const SizedBox(height: 5),
-        Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+        ),
       ],
     );
   }

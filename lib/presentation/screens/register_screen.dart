@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:kawaii_sudoku_app/core/color_app.dart';
 import 'package:kawaii_sudoku_app/models/user_model.dart';
 import 'package:kawaii_sudoku_app/presentation/screens/login_screen.dart';
 import 'package:kawaii_sudoku_app/services/api_service.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final ApiService _apiService = ApiService();
 
   final _usernameController = TextEditingController();
@@ -21,9 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
-
-  final Color _themeColor = const Color(0xFFF465A0);
-  final Color _bgColor = const Color(0xFFFCE4EC);
 
   Future<void> _handleRegister() async {
     if (_usernameController.text.isEmpty ||
@@ -69,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: AppColors.bgPalePink,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -79,11 +77,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 24),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.cardSurface,
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColors.shadowBlack.withOpacity(0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -96,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Center(
                   child: Icon(
                     Icons.auto_awesome,
-                    color: Colors.amber,
+                    color: AppColors.iconHighlight,
                     size: 40,
                   ),
                 ),
@@ -107,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF4A4A4A),
+                    color: AppColors.textBodyDark,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -166,12 +164,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    gradient: LinearGradient(
-                      colors: [const Color(0xFFF88FB5), _themeColor],
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.signUpGradientStart,
+                        AppColors.signUpTheme,
+                      ],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: _themeColor.withOpacity(0.4),
+                        color: AppColors.signUpTheme.withOpacity(0.4),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -187,13 +188,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const CircularProgressIndicator(
+                            color: AppColors.textWhite,
+                          )
                         : const Text(
                             "Create Account",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColors.textWhite,
                             ),
                           ),
                   ),
@@ -206,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     const Text(
                       "Already have an account? ",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: AppColors.textGrey),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -221,7 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: const Text(
                         "Login",
                         style: TextStyle(
-                          color: Color(0xFFFF4D94),
+                          color: AppColors.textPrimaryPink,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -244,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         style: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF4A4A4A),
+          color: AppColors.textBodyDark,
         ),
       ),
     );
@@ -260,7 +263,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardSurface,
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -270,12 +273,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-          prefixIcon: Icon(icon, color: _themeColor.withOpacity(0.7), size: 20),
+          prefixIcon: Icon(
+            icon,
+            color: AppColors.signUpTheme.withOpacity(0.7),
+            size: 20,
+          ),
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
                     isVisible ? Icons.visibility : Icons.visibility_off,
-                    color: _themeColor.withOpacity(0.5),
+                    color: AppColors.signUpTheme.withOpacity(0.5),
                     size: 20,
                   ),
                   onPressed: onVisibilityToggle,
@@ -284,11 +291,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           contentPadding: const EdgeInsets.symmetric(vertical: 16),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.pink[100]!),
+            borderSide: const BorderSide(color: AppColors.inputBorderLight),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: _themeColor),
+            borderSide: const BorderSide(color: AppColors.signUpTheme),
           ),
         ),
       ),
