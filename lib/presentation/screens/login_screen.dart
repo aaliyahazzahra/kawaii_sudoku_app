@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart' as google_pkg;
 import 'package:kawaii_sudoku_app/core/color_app.dart';
+import 'package:kawaii_sudoku_app/presentation/screens/main_menu_screen.dart';
 import 'package:kawaii_sudoku_app/presentation/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kawaii_sudoku_app/models/user_model.dart';
@@ -60,6 +63,70 @@ class _LoginScreenState extends State<LoginScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg), backgroundColor: AppColors.textPrimaryPink),
     );
+  }
+
+  // Paste this function inside _LoginScreenState
+  Future<UserCredential?> signInWithGoogle() async {
+    // 1. Use the alias 'google_pkg' to force the correct class
+    final google_pkg.GoogleSignIn googleSignIn = google_pkg.GoogleSignIn();
+
+    // 2. Trigger the authentication flow
+    final google_pkg.GoogleSignInAccount? googleUser = await googleSignIn
+        .signIn();
+
+    if (googleUser == null) {
+      return null;
+    }
+
+    // 3. Obtain the auth details
+    final google_pkg.GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // 4. Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // 5. Sign in to Firebase
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
+
+    try {
+      UserCredential? userCredential = await signInWithGoogle();
+
+      if (userCredential != null) {
+        // Retrieve user details
+        final user = userCredential.user;
+        print('Signed in with Google: ${user?.displayName}');
+
+        // TODO: You might want to save to your own database/API here
+        // await _apiService.loginWithSocial(user?.email, ...);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Google Sign In Successful! ✨")),
+          );
+          // Navigate to Home
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const MainMenuScreen()),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      if (mounted) {
+        _showError("Google Sign In Failed");
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -193,6 +260,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     AppColors.cardSurface,
                     Colors.black,
                     Icons.g_mobiledata,
+
+                    () async {
+                      await _handleGoogleSignIn();
+                    },
                   ),
                   const SizedBox(height: 15),
                   _buildSocialButton(
@@ -200,6 +271,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     AppColors.socialApple,
                     AppColors.textWhite,
                     Icons.apple,
+                    () {
+                      // Add Apple Sign In logic here later
+                      print("Apple Sign In Clicked");
+                    },
                   ),
 
                   const SizedBox(height: 20),
@@ -297,6 +372,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Color bgColor,
     Color textColor,
     IconData icon,
+    VoidCallback onPressed,
   ) {
     return Container(
       width: double.infinity,
@@ -311,7 +387,7 @@ class _LoginScreenState extends State<LoginScreen> {
           text,
           style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           elevation: 0,
