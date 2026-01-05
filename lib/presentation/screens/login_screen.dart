@@ -65,24 +65,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Paste this function inside _LoginScreenState
   Future<UserCredential?> signInWithGoogle() async {
-    // 1. Use the alias 'google_pkg' to force the correct class
     final google_pkg.GoogleSignIn googleSignIn = google_pkg.GoogleSignIn();
 
-    // 2. Trigger the authentication flow
     final google_pkg.GoogleSignInAccount? googleUser = await googleSignIn
         .signIn();
 
     if (googleUser == null) {
       return null;
     }
-
-    // 3. Obtain the auth details
     final google_pkg.GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
-    // 4. Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,

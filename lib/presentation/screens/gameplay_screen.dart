@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:kawaii_sudoku_app/core/color_app.dart';
+import 'package:kawaii_sudoku_app/presentation/widgets/difficulty_modal.dart';
 
-class GameplayScreen extends StatelessWidget {
+class GameplayScreen extends StatefulWidget {
   const GameplayScreen({super.key});
+
+  @override
+  State<GameplayScreen> createState() => _GameplayScreenState();
+}
+
+class _GameplayScreenState extends State<GameplayScreen> {
+  // State variables
+  String _currentDifficulty = 'Medium';
+
+  // Simulating board data as a state variable so it can be modified later
+  final Map<int, String> _boardValues = {
+    0: "5",
+    1: "3",
+    4: "7",
+    9: "6",
+    12: "1",
+    13: "9",
+    14: "5",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +55,15 @@ class GameplayScreen extends StatelessWidget {
                       Icons.arrow_back,
                       () => Navigator.pop(context),
                     ),
-                    _buildStatusChip('Medium'),
+
+                    _buildStatusChip(_currentDifficulty),
                     _buildStatusChip('00:03', isTimer: true),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-
               _buildSudokuBoard(),
-
               const SizedBox(height: 30),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -59,9 +77,7 @@ class GameplayScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 30),
-
               _buildNumberPad(),
             ],
           ),
@@ -144,7 +160,7 @@ class GameplayScreen extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  _getSudokuValue(index),
+                  _boardValues[index] ?? "",
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -219,127 +235,20 @@ class GameplayScreen extends StatelessWidget {
     );
   }
 
-  String _getSudokuValue(int index) {
-    Map<int, String> initialValues = {
-      0: "5",
-      1: "3",
-      4: "7",
-      9: "6",
-      12: "1",
-      13: "9",
-      14: "5",
-    };
-    return initialValues[index] ?? "";
-  }
-
   void _showDifficultyDialog(BuildContext context) {
     showDialog(
       context: context,
       barrierColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.cardSurface,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 10),
-                const Text(
-                  'Select Difficulty',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
-                  ),
-                ),
-                const SizedBox(height: 25),
-
-                _buildDifficultyOption(context, 'Easy', isSelected: false),
-                _buildDifficultyOption(context, 'Medium', isSelected: true),
-                _buildDifficultyOption(context, 'Hard', isSelected: false),
-                _buildDifficultyOption(context, 'Expert', isSelected: false),
-
-                const SizedBox(height: 20),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.btnDark,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Close',
-                      style: TextStyle(
-                        color: AppColors.textWhite,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+      builder: (context) {
+        return DifficultyModal(
+          currentDifficulty: _currentDifficulty,
+          onDifficultyChanged: (newDifficulty) {
+            setState(() {
+              _currentDifficulty = newDifficulty;
+            });
+          },
         );
       },
-    );
-  }
-
-  Widget _buildDifficultyOption(
-    BuildContext context,
-    String title, {
-    bool isSelected = false,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        border: isSelected
-            ? null
-            : Border.all(color: AppColors.inputBorderLight),
-        gradient: isSelected
-            ? const LinearGradient(
-                colors: [
-                  AppColors.buttonGradientStart,
-                  AppColors.buttonGradientEnd,
-                ],
-              )
-            : null,
-        color: isSelected ? null : AppColors.cardSurface,
-        boxShadow: isSelected
-            ? [
-                BoxShadow(
-                  color: AppColors.shadowPink.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : [],
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? AppColors.textWhite : AppColors.textGrey600,
-            fontSize: 16,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-          ),
-        ),
-      ),
     );
   }
 }
