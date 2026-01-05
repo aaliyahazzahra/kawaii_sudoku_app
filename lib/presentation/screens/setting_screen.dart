@@ -183,7 +183,7 @@ class SettingsPage extends StatelessWidget {
         Switch(
           value: val,
           onChanged: (v) {},
-          activeColor: Colors.white,
+          activeThumbColor: Colors.white,
           activeTrackColor: const Color(0xFFF06292),
         ),
       ],
